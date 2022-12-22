@@ -5,13 +5,14 @@ $('button[data-toggle="tab"]').on("shown.bs.tab", function (e) {
 	var idx = $(this).index('button[data-toggle="tab"]');
 	$("#clickedTab").text(idx + 1);
 	var indextab = idx + 1;
-	if (indextab == 1) {// Si regresamos al primer tab entonces hacemos lo siguiente:
+	if (indextab == 1) {
+		// Si regresamos al primer tab entonces hacemos lo siguiente:
 		$("#crear_editar").trigger("reset"); // Reseteo el formulario
-		$("#nuevo_editar").html("Registro de datos"); // El valor de la cabecera del tab cambia 
-		$("#titulo").html("Nuevo registro de máquina"); // El título del formulario cambia 
+		$("#nuevo_editar").html("Registro de datos"); // El valor de la cabecera del tab cambia
+		$("#titulo").html("Nuevo registro de máquina"); // El título del formulario cambia
 		$(".form-control").removeClass("is-valid is-invalid"); // Limpio las alertas de los inputs formulario
 		$(".custom-select").removeClass("is-valid is-invalid"); // Limpio las alertas de los select formulario
-		$("#Maquina").DataTable().ajax.reload(null, false); // Actualiza la tabla en tiempo real  
+		$("#Maquina").DataTable().ajax.reload(null, false); // Actualiza la tabla en tiempo real
 		var validaCreateMaquina = $("#crear_editar").validate(); // Reseteo las validaciones del formulario
 		validaCreateMaquina.resetForm();
 	}
@@ -19,6 +20,7 @@ $('button[data-toggle="tab"]').on("shown.bs.tab", function (e) {
 // Cargar select de tipos de maquinas
 $(document).ready(function () {
 	select_tipo_maquina();
+	data_maquina();
 });
 
 $("#add").click(function () {
@@ -105,7 +107,7 @@ function select_tipo_maquina() {
 		.get(url + "Maquina/obt_maquinaxid")
 		.then((res) => {
 			var options =
-				"<option selected disabled value=''>Seleccionar... </option>";
+				"<option selected disabled value=''>Seleccionar... </option><option value=''>Todos</option>";
 			res.data.forEach((elem) => {
 				options +=
 					'<option value="' +
@@ -115,6 +117,7 @@ function select_tipo_maquina() {
 					"</option>";
 			});
 			$("#M_TIPO_ID").html(options);
+			$("#M_TIPO_ID_").html(options);
 		})
 		.catch((error) => {
 			console.error(error);
@@ -124,16 +127,26 @@ function select_tipo_maquina() {
                         Mostrar listado de Máquinas.
 ****************************************************************************/
 //Versión datatable y ajax.
-$(document).ready(function () {
+function data_maquina() {
 	//Mostrar elementos de la tabla Alumno.
 	$("#Maquina").DataTable({
-		ajax: url + "Maquina/mostrar_maquina",
+		ajax: {
+			url: url + "Maquina/mostrar_maquina", 
+			type: "post",
+			data: { M_TIPO_ID_: $("#M_TIPO_ID_").val() },
+		},
+		bDestroy: true,
 		responsive: true,
 		order: [],
-		bDestroy:true,
+
 		language: idioma_espanol,
 	});
+}
+//Cuando cambien al seleccionar un tipo de máquina se filtrara 
+$("#M_TIPO_ID_").change(function () {
+	data_maquina();
 });
+
 /****************************************************************************
                        Obtener id de máquinas para editar.
 ****************************************************************************/
@@ -179,7 +192,7 @@ function eliminar_maquina(id) {
 			axios
 				.post(url + "Maquina/Eliminar/" + id)
 				.then((res) => {
-                    $("#Maquina").DataTable().ajax.reload(null, false);
+					$("#Maquina").DataTable().ajax.reload(null, false);
 					Swal.fire({
 						icon: "success",
 						title: "El registro ha sido eliminado.",

@@ -25,8 +25,8 @@ class Maquina extends CI_Controller
 	//Mostrar con ajax y datatable
 	public function mostrar_maquina()
 	{
-
-		$resultList = $this->m->mostrar_maquinas();
+		$tipo_maquina=$this->input->post('M_TIPO_ID_'); 
+		$resultList = $this->m->mostrar_maquinas($tipo_maquina);
 		$result = array();
 		$editar = '';
 		$i = 1;

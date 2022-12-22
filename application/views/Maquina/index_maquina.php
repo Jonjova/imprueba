@@ -19,6 +19,13 @@
       <div class="row mb-3 ">
         <button type="button" id="add" style="margin-left: 10%;" class=" btn btn-success">Nuevo registro</button>
       </div>
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <p style="margin-left: 27%;">Seleccione tipo de máquina a filtrar: </p> 
+          <select style="margin-left: 27%;" name="M_TIPO_ID_" id="M_TIPO_ID_" class="custom-select" >
+          </select>
+        </div>
+      </div>
       <div class="row d-flex justify-content-center ">
         <div class="table-responsive-sm col-lg-10">
           <table id="Maquina" class="display table table-hover select-filter" style="width: 100%;">

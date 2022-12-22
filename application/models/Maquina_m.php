@@ -4,8 +4,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Maquina_m extends CI_Model
 {
 	// result_array devuelve datos de tipo de matriz asociativa. 
-	public function mostrar_maquinas()
+	public function mostrar_maquinas($tipo_maquina)
 	{
+		if(!empty($tipo_maquina)){
+			$this->db->where('TIPO_ID',$tipo_maquina);  
+		}
 		$datos = $this->db->select('*')
 			->from('MAQUINA')
 			->join('TIPO', "TIPO_ID = M_TIPO_ID")
