@@ -1,0 +1,35 @@
+CREATE DATABASE IF NOT EXISTS EXAMEN;
+
+USE EXAMEN;
+/*Tablas*/
+CREATE TABLE IF NOT EXISTS TIPO(
+	TIPO_ID INT AUTO_INCREMENT PRIMARY KEY,
+	TIPO_NOMBRE VARCHAR(100) NOT NULL
+); 
+
+CREATE TABLE IF NOT EXISTS MAQUINA(
+	M_ID INT AUTO_INCREMENT PRIMARY KEY,
+	M_CODIGO VARCHAR(100) NOT NULL,
+    M_NOMBRE VARCHAR(300) NOT NULL,
+    M_TIPO_ID INT,
+    M_DESCRIPCION VARCHAR(300) NOT NULL,
+    FOREIGN KEY (M_TIPO_ID) REFERENCES TIPO(TIPO_ID)
+); 
+
+/*Insert de tabla tipo de maquinas*/
+INSERT INTO TIPO(TIPO_NOMBRE)
+VALUES	('Troqueladora'),
+		('Prensa'),
+        ('Pegadora'),
+		('Flexografia'),
+        ('Imprenta');
+        
+/*Insert de tabla maquinas*/
+INSERT INTO MAQUINA(M_CODIGO,M_NOMBRE,M_TIPO_ID,M_DESCRIPCION)
+VALUES	('XL105','XL105',5,'Maquina de imprenta (imprenta)'),
+		('TC1','TC1',3,'Maquina de pegadora');   
+        
+/*VISTA los tipos de maquinas*/        
+SELECT M_CODIGO,M_NOMBRE,TIPO_NOMBRE,M_DESCRIPCION
+		FROM MAQUINA         
+		INNER JOIN TIPO ON TIPO_ID = M_TIPO_ID  	
