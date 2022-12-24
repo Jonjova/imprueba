@@ -15,6 +15,7 @@ $('button[data-toggle="tab"]').on("shown.bs.tab", function (e) {
 		$("#Maquina").DataTable().ajax.reload(null, false); // Actualiza la tabla en tiempo real
 		var validaCreateMaquina = $("#crear_editar").validate(); // Reseteo las validaciones del formulario
 		validaCreateMaquina.resetForm();
+		data_maquina();// Actualizo la tabla 
 	}
 });
 // Cargar select de tipos de maquinas
@@ -124,7 +125,7 @@ function select_tipo_maquina() {
 		});
 }
 /****************************************************************************
-                        Mostrar listado de Máquinas.
+                        Listar y filtrar las Máquinas.
 ****************************************************************************/
 //Versión datatable y ajax.
 function data_maquina() {
@@ -142,7 +143,7 @@ function data_maquina() {
 		language: idioma_espanol,
 	});
 }
-//Cuando cambien al seleccionar un tipo de máquina se filtrara 
+//Al seleccionar un tipo de máquina se filtrara 
 $("#M_TIPO_ID_").change(function () {
 	data_maquina();
 });
